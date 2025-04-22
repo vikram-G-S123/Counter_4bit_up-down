@@ -1,4 +1,4 @@
-# Counter_4bit_up-down
+![image](https://github.com/user-attachments/assets/ae62e536-c6dd-44e5-ba76-fc969c1544ed)# Counter_4bit_up-down
 
 ## Aim:
 
@@ -58,17 +58,106 @@ Functional Simulation:
 
 ### Verilog code for 4-Bit Up-Down Counter:
 
-*/Program  for  4-Bit Up-Down Counter
+`timescale 1ns / 1ps
+module up_down_counter(
+    input wire clk,       
+    input wire reset,     
+    input wire up_down,   
+    input wire enable,    
+    output reg [3:0] count 
+);
 
-	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) 
+        begin
+            count <= 4'b0000;
+        end
+
+        else if (enable)
+        begin
+            if (up_down)
+            begin
+                count <= count + 1'b1;
+            end
+            else begin
+                count <= count - 1'b1;
+            end
+        end
+    end
+
+endmodule
+
 
 ## Creating Test bench:
 
-	Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.vhdl to open a new blank document (4bitup_down_count_tb.v).
-
 ### Test-bench code for 4-Bit Up-Down Counter:
 
-*/Test bench Program  for  4-Bit Up-Down Counter
+`timescale 1ns / 1ps
+
+module up_down_counter_tb();
+
+    reg clk;
+    reg reset;
+    reg up_down;
+    reg enable;
+    wire [3:0] count;
+    
+
+    up_down_counter uut(
+        .clk(clk),
+        .reset(reset),
+        .up_down(up_down),
+        .enable(enable),
+        .count(count)
+    );
+    
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;  
+    end
+    
+
+    initial begin
+
+        reset = 1;
+        up_down = 1;
+        enable = 0;
+        
+
+        #20 reset = 0;
+        
+
+        #10 enable = 1;
+        #200;  
+        
+
+        up_down = 0;
+        #200;  
+        
+
+        enable = 0;
+        #50;
+        
+
+        reset = 1;
+        #20 reset = 0;
+        
+
+        #50;
+        
+
+        $finish;
+    end
+    
+
+    initial begin
+        $monitor("Time: %t, Reset: %b, Up/Down: %b, Enable: %b, Count: %b", 
+                 $time, reset, up_down, enable, count);
+    end
+    
+endmodule
 
 ### To Launch Simulation tool
 	linux:/> nclaunch -new&            // “-new” option is used for invoking NCVERILOG for the first time for any design
