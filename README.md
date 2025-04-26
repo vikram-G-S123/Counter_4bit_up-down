@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/ae62e536-c6dd-44e5-ba76-fc969c1544ed)# Counter_4bit_up-down
+# Counter_4bit_up-down
 
 ## Aim:
 
